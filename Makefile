@@ -3,7 +3,7 @@ export
 
 VERSION  := v1.0.0
 GIT_HASH := $(shell git rev-parse --short HEAD)
-SERVICE  := ping-pong-service
+SERVICE  := turtle-soup-game-service
 SRC      := $(shell find . -type f -name '*.py' -not -path "./venv/*" -not -path "./internal/proto_gens/*")
 CURR_DIR := $(shell pwd)
 

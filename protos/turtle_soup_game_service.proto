@@ -6,8 +6,56 @@ message PingRequest {}
 
 message PongResponse {}
 
+message AIResult {
+  /* Error code, 0 == success, non-zero == failure */
+  uint32 code = 1;
+  /* Error message, reason for failure */
+  string msg = 2;
+}
+
+enum LLMEngine {
+  OPENAI = 0;
+  AZURE = 1;
+  GEMINI = 2;
+  CLAUDE = 3;
+}
+
+message GenerateDialogueRequest {
+  /* Unique identifier for the conversation */
+  string conversation_id = 1;
+  /* LLM engine type */
+  LLMEngine llm_engine = 2;
+  /* System Prompt used to generate dialogue */
+  string conversation_system_prompt = 3;
+  /* Used to determine whether to reply to a general question or restore the
+   * soup base */
+  bool to_reply_for_general_question = 4;
+  /* User sent chat message */
+  string chat = 5;
+  /* Unique identifier for the turtle soup */
+  string ext_thread_id = 6;
+  /* Unique user identifier */
+  string ext_uid = 7;
+  /* User nickname */
+  string ext_nickname = 8;
+}
+
+message GenerateDialogueResponse {
+  /* Whether the response to the turtle soup was successful */
+  AIResult ret = 1;
+  /* Unique identifier for the conversation */
+  string conversation_id = 2;
+  /* AI generated response */
+  string chat = 3;
+  /* Unique identifier for the turtle soup */
+  string ext_thread_id = 4;
+  /* Unique user identifier */
+  string ext_uid = 5;
+}
+
 /* clang-format off */
 service TurtleSoupGameService {
   rpc Ping(PingRequest) returns (PongResponse) {}
+  rpc GenerateDialogue(GenerateDialogueRequest) returns (GenerateDialogueResponse) {}
 }
 /* clang-format on */

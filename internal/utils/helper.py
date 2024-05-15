@@ -8,6 +8,8 @@ from functools import wraps
 
 from loguru import logger as loguru_logger
 
+from internal.constants import PUNCTUATION_LIST
+
 
 def timeit(func):
     """Decorator that logs the time a function takes to execute."""
@@ -67,3 +69,22 @@ def get_system_info() -> str:
 def get_hostname() -> str:
     """Get the hostname."""
     return platform.node()
+
+
+def is_text_all_punctuation(text: str) -> bool:
+    """Check if a text is all punctuation."""
+    yes = True
+    for char in text:
+        if str(char) not in PUNCTUATION_LIST:
+            yes = False
+            break
+    return yes
+
+
+def remove_all_punctuations(text: str) -> str:
+    """Remove all punctuations from a text."""
+    new_text_arr = []
+    for char in text:
+        if str(char) not in PUNCTUATION_LIST:
+            new_text_arr.append(str(char))
+    return "".join(new_text_arr)

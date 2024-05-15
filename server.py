@@ -8,7 +8,6 @@ import argparse
 import asyncio
 import random
 import time
-import traceback
 from typing import Any, Dict
 
 import grpc
@@ -40,8 +39,6 @@ def parse_args():
 
 
 async def serve(conf: Dict[str, Any]):
-    global _cleanup_coroutines
-
     try:
         # Create an asyncio gRPC server.
         server = grpc.aio.server(
@@ -56,6 +53,7 @@ async def serve(conf: Dict[str, Any]):
         )
         # Add the TurtleSoupGameService to the server.
         servicer = TurtleSoupGameService(conf=conf)
+        _cleanup_coroutines.append(servicer.close)
         turtle_soup_game_service_pb2_grpc.add_TurtleSoupGameServiceServicer_to_server(servicer, server)
         # Enable the reflection service.
         if conf["enable_reflection"]:
@@ -123,13 +121,13 @@ if __name__ == "__main__":
 
     try:
         loop.run_until_complete(serve(conf=conf))
-    except Exception:
-        traceback.print_exc()
+    except Exception as exc:
+        loguru_logger.error(f"Error: {exc}")
     finally:
         tasks = []
         if len(_cleanup_coroutines) > 0:
             for co in _cleanup_coroutines:
-                tasks.append(asyncio.ensure_future(_cleanup_coroutines()))
+                tasks.append(asyncio.ensure_future(co()))
         loop.run_until_complete(asyncio.gather(*tasks))
         # NOTE: Wait 250 ms for the underlying connections to close.
         # https://docs.aiohttp.org/en/stable/client_advanced.html#Graceful_Shutdown
