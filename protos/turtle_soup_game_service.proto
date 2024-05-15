@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package turtle_soup_game_service;
+
+message PingRequest {}
+
+message PongResponse {}
+
+/* clang-format off */
+service TurtleSoupGameService {
+  rpc Ping(PingRequest) returns (PongResponse) {}
+}
+/* clang-format on */

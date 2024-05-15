@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+.env
+.env.local
+.env.secret
+.env.shared
+.locks
+.logs
+.persistent
+.shares

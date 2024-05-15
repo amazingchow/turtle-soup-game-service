@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  infra-turtle-soup-game-service:
+    image: infra-turtle-soup-game-service:${IMAGE_VERSION}
+    container_name: infra-turtle-soup-game-service
+    command: python /app/server.py --conf=/app/config/turtle-soup-game-service.json
+    ports:
+      - 16869:16869
+    restart: always
+    env_file:
+      - ./.env.local
+      - ./.env.secret
+      - ./.env.shared
+    environment:
+      TZ: Asia/Shanghai
+      DEPLOY_ENV: prod
+      LOG_LEVEL: debug
+      LOG_PRINTER: disk
+      LOG_PRINTER_FILENAME: /app/logs/infra-turtle-soup-game-service.log
+      LOGURU_SERIALIZE: "false"
+    volumes:
+      - ~/.infra-config/turtle-soup-game-service:/app/config
+      - ./.logs:/app/logs
+      - ./.persistent:/app/persistent
+      - ./.locks:/app/locks
+      - ./.shares:/app/shares
+    # healthcheck:
+    #   test: ["CMD-SHELL", "grpcurl ... || exit 1"]
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 30

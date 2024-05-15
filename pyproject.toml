@@ -1,0 +1,8 @@
+[tool.pytest.ini_options]
+markers = [
+    "asyncio"
+]
+[tool.isort]
+# More info: https://pycqa.github.io/isort/docs/configuration/action_comments.html
+known_local_folder = ["internal"]
+sections = ["FUTURE", "STDLIB", "FIRSTPARTY", "THIRDPARTY", "LOCALFOLDER"]

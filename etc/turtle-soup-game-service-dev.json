@@ -1,0 +1,10 @@
+{
+    "deployment_env": "dev",
+    "service_name": "turtle-soup-game-service",
+    "service_host": "0.0.0.0",
+    "service_port": 16869,
+	"log_level": "debug",
+    "log_printer": "console",
+    "log_printer_filename": "./turtle-soup-game-service.log",
+    "enable_reflection": true
+}
