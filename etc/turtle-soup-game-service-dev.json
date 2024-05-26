@@ -9,6 +9,7 @@
     "log_printer_filename": "./turtle-soup-game-service.log",
     "enable_reflection": true,
 	"openai": {
+		"api_base": "https://api.openai.com",
 		"enable_http_proxy": false,
 		"http_proxy": "",
         "intention_model": "gpt-3.5-turbo-instruct",

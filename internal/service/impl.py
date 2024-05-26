@@ -45,6 +45,7 @@ class TurtleSoupGameService(turtle_soup_game_service_pb2_grpc.TurtleSoupGameServ
             timeout=aiohttp.ClientTimeout(total=60),
             trace_configs=[http_trace_config]
         ))
+        openai.api_base = conf["openai"]["api_base"]
         if "enable_http_proxy" in conf["openai"] and conf["openai"]["enable_http_proxy"]:
             openai.proxy = conf["openai"]["http_proxy"]
 
